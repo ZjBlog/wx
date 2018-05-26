@@ -5,9 +5,11 @@ wx\cheers\Builder\AbstractBuilder.class
 wx\cheers\Controller\WxMenuController.class
 wx\cheers\Application.class
 wx\cheers\Handler\LogHandler.class
+wx\cheers\Controller\TestController.class
 wx\cheers\Controller\WxJsSdkController.class
 wx\cheers\Controller\WechatController.class
 wx\cheers\Util\JsonUtils.class
 wx\cheers\Handler\SubscribeHandler.class
+wx\cheers\Config\HttpSessionConfig.class
 wx\cheers\Handler\AbstractHandler.class
 wx\cheers\Config\WechatMpConfiguration.class
