@@ -2,6 +2,8 @@ package wx.cheers.Handler;
 
 import java.util.Map;
 
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.springframework.stereotype.Component;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -20,7 +22,7 @@ public class SubscribeHandler extends AbstractHandler {
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService weixinService,
-            WxSessionManager sessionManager) throws WxErrorException {
+                                    WxSessionManager sessionManager) throws WxErrorException {
 
         this.logger.info("新关注用户 OPENID: " + wxMessage.getFromUser());
 
@@ -45,15 +47,29 @@ public class SubscribeHandler extends AbstractHandler {
         StringBuffer buffer = new StringBuffer();
         buffer.append(userWxInfo.getNickname());
         buffer.append("您好! 感谢您关注/::)/::)。");
-
+        handleSpecial(wxMessage,weixinService);
         return new TextBuilder().build(buffer.toString(), wxMessage, weixinService);
     }
 
     /**
      * 处理特殊请求，比如如果是扫码进来的，可以做相应处理
      */
-    private WxMpXmlOutMessage handleSpecial(WxMpXmlMessage wxMessage) throws Exception {
-        // TODO
+    private WxMpXmlOutMessage handleSpecial(WxMpXmlMessage wxMessage,WxMpService weixinService) {
+        WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
+                .toUser(wxMessage.getFromUser())
+                .templateId("3ihqBqli7dKkEh6B3lCDYbmQgbqRQpQbi051HDJm2-g")
+                .url("www.baidu.com")
+                .build();
+//
+          templateMessage.addData(new WxMpTemplateData("ceshi", " world", "#173177"));
+//        templateMessage.addData(new WxMpTemplateData(name2, value2, color2));
+
+        try {
+            weixinService.getTemplateMsgService().sendTemplateMsg(templateMessage);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
+//        wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
         return null;
     }
 
